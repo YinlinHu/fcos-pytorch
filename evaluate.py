@@ -22,7 +22,7 @@ def evaluate(dataset, predictions):
 
     print(results)
 
-    return res
+    return results.results
 
 
 def evaluate_predictions_on_coco(coco_gt, results, result_file, iou_type):

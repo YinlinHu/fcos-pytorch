@@ -3,6 +3,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from collections import OrderedDict
 
+from .batch_norm import FrozenBatchNorm2d
 
 __all__ = ['VoVNet', 'vovnet27_slim', 'vovnet39', 'vovnet57']
 
@@ -11,7 +12,6 @@ model_urls = {
     'vovnet39': './vovnet39_torchvision.pth',
     'vovnet57': './vovnet57_torchvision.pth',
 }
-
 
 def conv3x3(
     in_channels,
@@ -37,7 +37,7 @@ def conv3x3(
                 bias=False,
             ),
         ),
-        ('{}_{}/norm'.format(module_name, postfix), nn.BatchNorm2d(out_channels)),
+        ('{}_{}/norm'.format(module_name, postfix), FrozenBatchNorm2d(out_channels)),
         ('{}_{}/relu'.format(module_name, postfix), nn.ReLU(inplace=True)),
     ]
 
@@ -66,7 +66,7 @@ def conv1x1(
                 bias=False,
             ),
         ),
-        ('{}_{}/norm'.format(module_name, postfix), nn.BatchNorm2d(out_channels)),
+        ('{}_{}/norm'.format(module_name, postfix), FrozenBatchNorm2d(out_channels)),
         ('{}_{}/relu'.format(module_name, postfix), nn.ReLU(inplace=True)),
     ]
 
@@ -182,7 +182,7 @@ class VoVNet(nn.Module):
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
                 nn.init.kaiming_normal_(m.weight)
-            elif isinstance(m, (nn.BatchNorm2d, nn.GroupNorm)):
+            elif isinstance(m, (FrozenBatchNorm2d, nn.GroupNorm)):
                 nn.init.constant_(m.weight, 1)
                 nn.init.constant_(m.bias, 0)
             elif isinstance(m, nn.Linear):

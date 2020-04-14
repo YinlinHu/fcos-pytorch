@@ -5,22 +5,27 @@ def get_argparser():
     parser = argparse.ArgumentParser()
 
     parser.add_argument('--local_rank', type=int, default=0)
-    parser.add_argument('--lr', type=float, default=0.01)
-    parser.add_argument('--l2', type=float, default=0.0001)
-    parser.add_argument('--batch', type=int, default=16)
-    parser.add_argument('--epoch', type=int, default=24)
+    parser.add_argument('--lr', type=float, default=0.0025)
+    parser.add_argument('--batch', type=int, default=2)
+    parser.add_argument('--epoch', type=int, default=12)
+    parser.add_argument('--num_workers', type=int, default=0)
     parser.add_argument('--n_save_sample', type=int, default=5)
     parser.add_argument('--ckpt', type=str)
-    parser.add_argument('path', type=str)
+    parser.add_argument('--working_dir', type=str, default="./training_dir/")
+    parser.add_argument('--path', type=str, default="/data/COCO_17/")
 
     return parser
-
 
 def get_args():
     parser = get_argparser()
     args = parser.parse_args()
 
-    args.feat_channels = [0, 0, 512, 768, 1024]
+    args.lr_steps = [8, 11]
+    # args.lr_steps = [32, 44]
+    args.lr_gamma = 0.1
+
+    # args.feat_channels = [0, 0, 512, 768, 1024] # for vovnet
+    args.feat_channels = [0, 0, 128, 256, 512] # for resnet18
     args.out_channel = 256
     args.use_p5 = True
     args.n_class = 81
