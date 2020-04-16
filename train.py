@@ -6,7 +6,7 @@ from torch.utils.data import DataLoader, sampler
 from tqdm import tqdm
 
 from argument import get_args
-from backbone import vovnet39, vovnet57, resnet18
+from backbone import vovnet39, vovnet57, resnet18, resnet50, resnet101
 from dataset import COCODataset, collate_fn
 from model import FCOS
 from transform import preset_transform
@@ -172,7 +172,9 @@ if __name__ == '__main__':
 
     # backbone = vovnet39(pretrained=True)
     # backbone = vovnet57(pretrained=True)
-    backbone = resnet18(pretrained=True)
+    # backbone = resnet18(pretrained=True)
+    backbone = resnet50(pretrained=True)
+    #backbone = resnet101(pretrained=True)
     model = FCOS(args, backbone)
     model = model.to(device)
 

@@ -25,7 +25,8 @@ def get_args():
     args.lr_gamma = 0.1
 
     # args.feat_channels = [0, 0, 512, 768, 1024] # for vovnet
-    args.feat_channels = [0, 0, 128, 256, 512] # for resnet18
+    # args.feat_channels = [0, 0, 128, 256, 512] # for resnet18
+    args.feat_channels = [0, 0, 512, 1024, 2048] # for resnet50, resnet101
     args.out_channel = 256
     args.use_p5 = True
     args.n_class = 81
