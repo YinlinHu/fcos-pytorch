@@ -45,7 +45,7 @@ class COCODataset(datasets.CocoDetection):
         self.id2category = {v: k for k, v in self.category2id.items()}
         self.id2img = {k: v for k, v in enumerate(self.ids)}
 
-        self.transform = transform
+        self.transformer = transform
 
     def __getitem__(self, index):
         img, annot = super().__getitem__(index)
@@ -63,8 +63,8 @@ class COCODataset(datasets.CocoDetection):
 
         target.clip(remove_empty=True)
 
-        if self.transform is not None:
-            img, target = self.transform(img, target)
+        if self.transformer is not None:
+            img, target = self.transformer(img, target)
 
         return img, target, index
 
